@@ -1,4 +1,6 @@
 FROM alpine:latest
+# Change source
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 
 RUN apk update && \
     apk add --no-cache openssl && \
