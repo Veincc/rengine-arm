@@ -1144,6 +1144,16 @@ class GetFileContents(APIView):
 			response['status'] = True
 			response['content'] = f.read()
 			return Response(response)
+		
+		if 'xray_config' in req.query_params:
+			path = "/usr/src/github/xray/config.yaml"
+			if not os.path.exists(path):
+				run_command(f'touch {path}')
+				response['message'] = 'File Created!'
+			f = open(path, "r")
+			response['status'] = True
+			response['content'] = f.read()
+			return Response(response)
 
 		if 'naabu_config' in req.query_params:
 			path = "/root/.config/naabu/config.yaml"
