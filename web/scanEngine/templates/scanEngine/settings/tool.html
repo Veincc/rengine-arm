@@ -21,6 +21,23 @@ Settings, API Keys & Tool Settings
 <div class="row">
   <div class="col-xl-6 col-md-12 col-sm-12 col-12 mb-2">
     <div class="card">
+          <div class="card-body">
+              <h4 class="header-title">Xray</h4>
+              <p>
+                  This section lets you modify Xray config file. You can find more information about the <a
+                      href="https://docs.xray.cool/#/configration/README" class="text-primary" target="_blank">Xray config</a> here.<br>
+                  <span class="text-danger">Please note that only YAML config is supported.</span>
+              </p>
+              <form method="post" enctype="multipart/form-data" id="xray-config-form">
+                  {% csrf_token %}
+                  <h4 class="header-title">Current Xray Configuration</h4>
+                  <label for="xray_config_text_area">Double click the configuration to edit.</label>
+                  <textarea class="form-control" id="xray_config_text_area" spellcheck="false" readonly="true"
+                            name="xray_config_text_area"></textarea>
+              </form>
+          </div>
+      </div>
+    <div class="card">
       <div class="card-body">
         <h4 class="header-title">GF Patterns</h4>
         <p>

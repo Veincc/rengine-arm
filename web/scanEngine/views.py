@@ -239,6 +239,12 @@ def tool_specific_settings(request, slug):
             messages.add_message(request, messages.INFO, 'Subfinder config updated!')
             return http.HttpResponseRedirect(reverse('tool_settings', kwargs={'slug': slug}))
 
+        elif 'xray_config_text_area' in request.POST:
+            with open('/usr/src/github/xray/config.yaml', "w") as fhandle:
+                fhandle.write(request.POST.get('xray_config_text_area'))
+            messages.add_message(request, messages.INFO, 'Xray config updated!')
+            return http.HttpResponseRedirect(reverse('tool_settings', kwargs={'slug': slug}))
+        
         elif 'naabu_config_text_area' in request.POST:
             with open('/root/.config/naabu/config.yaml', "w") as fhandle:
                 fhandle.write(request.POST.get('naabu_config_text_area'))

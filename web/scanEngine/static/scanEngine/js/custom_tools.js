@@ -95,6 +95,25 @@ $("#subfinder_config_text_area").dblclick(function() {
   }
 });
 
+
+// get Xray config
+$.getJSON(`/api/getFileContents?xray_config&format=json`, function(data) {
+  $("#xray_config_text_area").attr("rows", 14);
+  $("textarea#xray_config_text_area").html(htmlEncode(data['content']));
+}).fail(function(){
+  $("#xray_config_text_area").removeAttr("readonly");
+  $("textarea#xray_config_text_area").html(`# Your Xray configuration here.`);
+  $("#xray-config-form").append('<input type="submit" class="btn btn-primary mt-2 float-end" value="Save Changes" id="xray-config-submit">');
+});
+
+$("#xray_config_text_area").dblclick(function() {
+  if (!document.getElementById('xray-config-submit')) {
+    $("#xray_config_text_area").removeAttr("readonly");
+    $("#xray-config-form").append('<input type="submit" class="btn btn-primary mt-2 float-end" value="Save Changes" id="xray-config-submit">');
+  }
+});
+
+
 // get Naabu config
 $.getJSON(`/api/getFileContents?naabu_config&format=json`, function(data) {
   $("#naabu_config_text_area").attr("rows", 14);
