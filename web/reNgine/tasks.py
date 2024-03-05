@@ -2456,7 +2456,7 @@ def xray_scan(self, urls=[], ctx={}, description=None):
             scan_id=self.scan_id,
             activity_id=self.activity_id,
             shell=True,
-            cwd='/app/xray/'	#xray and crawlergo dir
+            cwd='/usr/src/github/Xray/'	#xray and crawlergo dir
         )
         if not os.path.isfile(output_file):
             logger.info('No vulns')
