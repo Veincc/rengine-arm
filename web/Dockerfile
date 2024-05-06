@@ -1,5 +1,7 @@
 # Base image
-FROM --platform=linux/amd64 ubuntu:22.04
+FROM ubuntu:22.04
+# Change apt source
+RUN sed -i 's/http:\/\/archive.ubuntu.com/http:\/\/mirrors.aliyun.com/g' /etc/apt/sources.list
 
 # Labels and Credits
 LABEL \
@@ -48,7 +50,7 @@ RUN apt install -y  --no-install-recommends \
 RUN add-apt-repository ppa:mozillateam/ppa
 
 # Download and install go 1.20
-RUN wget https://golang.org/dl/go1.21.4.linux-amd64.tar.gz
+RUN wget https://mirrors.aliyun.com/golang/go1.21.4.linux-amd64.tar.gz
 RUN tar -xvf go1.21.4.linux-amd64.tar.gz
 RUN rm go1.21.4.linux-amd64.tar.gz
 RUN mv go /usr/local
@@ -66,7 +68,11 @@ WORKDIR /usr/src/app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+# Add Proxy
+RUN go env -w GO111MODULE=on
+RUN go env -w GOPROXY=https://goproxy.cn,direct
 # Download Go packages
+RUN go install -v -v github.com/bp0lr/gauplus@latest
 RUN go install -v github.com/jaeles-project/gospider@latest
 RUN go install -v github.com/tomnomnom/gf@latest
 RUN go install -v github.com/tomnomnom/unfurl@latest
@@ -100,7 +106,8 @@ RUN katana -up
 # Copy requirements
 COPY ./requirements.txt /tmp/requirements.txt
 RUN pip3 install --upgrade setuptools pip && \
-    pip3 install -r /tmp/requirements.txt
+    pip3 install -r /tmp/requirements.txt \
+    -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 
 # install eyewitness
@@ -109,7 +116,8 @@ RUN python3 -m pip install fuzzywuzzy \
     selenium==4.9.1 \
     python-Levenshtein \
     pyvirtualdisplay \
-    netaddr
+    netaddr \
+    -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 # Copy source code
 COPY . /usr/src/app/
